@@ -1,0 +1,26 @@
+$primary-color: #1a4870;
+$primary-dark: #0f2f4d;
+$primary-light: #2c6aa0;
+$accent-green: #2d5a4a;
+$accent-green-light: #3d7a60;
+
+$status-healthy: #67c23a;
+$status-injured: #f56c6c;
+$status-rehab: #e6a23c;
+$status-available: #409eff;
+
+$sidebar-bg: #1e293b;
+$sidebar-hover: #334155;
+$sidebar-active: #1a4870;
+$sidebar-text: #cbd5e1;
+
+$card-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+$card-hover-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.15);
+
+@mixin card-hover {
+  transition: all 0.3s ease;
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $card-hover-shadow;
+  }
+}

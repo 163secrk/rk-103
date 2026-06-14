@@ -1,0 +1,59 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #app {
+  height: 100%;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+body {
+  background-color: #f1f5f9;
+  color: #334155;
+}
+
+.el-table {
+  --el-table-header-bg-color: #f8fafc;
+}
+
+.el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell {
+  background-color: #f8fafc;
+}
+
+.status-tag {
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+
+  &.healthy {
+    background-color: rgba(103, 194, 58, 0.1);
+    color: $status-healthy;
+    border: 1px solid rgba(103, 194, 58, 0.2);
+  }
+
+  &.injured {
+    background-color: rgba(245, 108, 108, 0.1);
+    color: $status-injured;
+    border: 1px solid rgba(245, 108, 108, 0.2);
+  }
+
+  &.rehab {
+    background-color: rgba(230, 162, 60, 0.1);
+    color: $status-rehab;
+    border: 1px solid rgba(230, 162, 60, 0.2);
+  }
+
+  &.available {
+    background-color: rgba(64, 158, 255, 0.1);
+    color: $status-available;
+    border: 1px solid rgba(64, 158, 255, 0.2);
+  }
+}
+
+.data-card {
+  @include card-hover;
+}
