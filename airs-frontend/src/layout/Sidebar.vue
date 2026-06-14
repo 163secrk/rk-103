@@ -32,7 +32,7 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import {
-  Trophy, DataLine, User, Document, Medic, Trophy as TrophyIcon, Setting
+  Trophy, DataLine, User, Document, Warning, Trophy as TrophyIcon, Setting
 } from '@element-plus/icons-vue'
 import { useUserStore } from '@/store/user'
 
@@ -55,7 +55,7 @@ const allMenus = [
   { name: 'dashboard', title: '仪表盘', icon: 'DataLine', path: '/dashboard' },
   { name: 'athletes', title: '运动员管理', icon: 'User', path: '/athletes' },
   { name: 'injury', title: '伤病记录', icon: 'Document', path: '/injury' },
-  { name: 'rehabilitation', title: '康复计划', icon: 'Medic', path: '/rehabilitation' },
+  { name: 'rehabilitation', title: '康复计划', icon: 'Warning', path: '/rehabilitation' },
   { name: 'training', title: '训练计划', icon: 'Trophy', path: '/training' },
   { name: 'users', title: '用户管理', icon: 'Setting', path: '/users' }
 ]
@@ -69,7 +69,7 @@ const menus = computed(() => {
 const activeMenu = computed(() => route.path)
 
 const getIcon = (name) => {
-  const icons = { DataLine, User, Document, Medic, Trophy: TrophyIcon, Setting }
+  const icons = { DataLine, User, Document, Warning, Trophy: TrophyIcon, Setting }
   return icons[name] || DataLine
 }
 </script>

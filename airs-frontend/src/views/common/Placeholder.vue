@@ -2,7 +2,7 @@
   <div class="placeholder">
     <el-card class="data-card" shadow="never">
       <div class="placeholder-content">
-        <el-icon size="80" color="#cbd5e1"><Construction /></el-icon>
+        <el-icon size="80" color="#cbd5e1"><Setting /></el-icon>
         <h3 class="title">{{ $route.meta.title }}</h3>
         <p class="subtitle">功能开发中，敬请期待...</p>
       </div>
@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import { Construction } from '@element-plus/icons-vue'
+import { Setting } from '@element-plus/icons-vue'
 </script>
 
 <style scoped lang="scss">

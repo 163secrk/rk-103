@@ -44,13 +44,13 @@
             </el-avatar>
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="姓名" width="120" />
+        <el-table-column prop="name" label="姓名" min-width="100" />
         <el-table-column prop="jerseyNumber" label="球衣号" width="100">
           <template #default="{ row }">
             <span class="jersey-number">#{{ row.jerseyNumber }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="position" label="位置" width="120" />
+        <el-table-column prop="position" label="位置" min-width="100" />
         <el-table-column prop="gender" label="性别" width="80" />
         <el-table-column label="年龄" width="80">
           <template #default="{ row }">
@@ -66,27 +66,29 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="180" fixed="right">
+        <el-table-column label="操作" width="260" fixed="right" class-name="action-column">
           <template #default="{ row }">
-            <el-button type="primary" link :icon="View" @click="handleView(row)">查看</el-button>
-            <el-button
-              v-if="canEdit"
-              type="primary"
-              link
-              :icon="Edit"
-              @click="handleEdit(row)"
-            >
-              编辑
-            </el-button>
-            <el-button
-              v-if="canEdit"
-              type="danger"
-              link
-              :icon="Delete"
-              @click="handleDelete(row)"
-            >
-              删除
-            </el-button>
+            <div class="action-buttons">
+              <el-button type="primary" link :icon="View" @click="handleView(row)">查看</el-button>
+              <el-button
+                v-if="canEdit"
+                type="primary"
+                link
+                :icon="Edit"
+                @click="handleEdit(row)"
+              >
+                编辑
+              </el-button>
+              <el-button
+                v-if="canEdit"
+                type="danger"
+                link
+                :icon="Delete"
+                @click="handleDelete(row)"
+              >
+                删除
+              </el-button>
+            </div>
           </template>
         </el-table-column>
       </el-table>
@@ -453,6 +455,15 @@ onMounted(() => {
       border-radius: 4px;
       font-weight: 600;
       font-size: 13px;
+    }
+
+    :deep(.action-column) {
+      .action-buttons {
+        display: flex;
+        gap: 4px;
+        white-space: nowrap;
+        flex-wrap: nowrap;
+      }
     }
 
     .pagination {

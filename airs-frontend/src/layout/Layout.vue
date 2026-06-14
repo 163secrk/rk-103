@@ -55,6 +55,7 @@ import { ElMessageBox } from 'element-plus'
 import {
   Fold, Expand, User, ArrowDown, SwitchButton, UserFilled
 } from '@element-plus/icons-vue'
+import Sidebar from './Sidebar.vue'
 import { useUserStore } from '@/store/user'
 
 const router = useRouter()

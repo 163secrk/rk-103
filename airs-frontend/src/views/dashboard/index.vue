@@ -26,7 +26,7 @@
       </div>
       <div class="stat-card data-card">
         <div class="stat-icon rehab">
-          <el-icon><Medic /></el-icon>
+          <el-icon><Warning /></el-icon>
         </div>
         <div class="stat-content">
           <div class="stat-value">{{ stats.rehab }}</div>
@@ -75,7 +75,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { getAthletes } from '@/api'
-import { User, CircleCheck, Medic, Warning, DataLine, Document } from '@element-plus/icons-vue'
+import { User, CircleCheck, Warning, DataLine, Document } from '@element-plus/icons-vue'
 
 const stats = ref({
   total: 0,
