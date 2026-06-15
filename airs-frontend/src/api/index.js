@@ -66,3 +66,85 @@ export function deleteAthlete(id) {
     method: 'delete'
   })
 }
+
+export function getInjuryRecords(params) {
+  return request({
+    url: '/injury-records',
+    method: 'get',
+    params
+  })
+}
+
+export function getInjuryRecord(id) {
+  return request({
+    url: `/injury-records/${id}`,
+    method: 'get'
+  })
+}
+
+export function createInjuryRecord(data) {
+  return request({
+    url: '/injury-records',
+    method: 'post',
+    data
+  })
+}
+
+export function updateInjuryRecord(id, data) {
+  return request({
+    url: `/injury-records/${id}`,
+    method: 'put',
+    data
+  })
+}
+
+export function deleteInjuryRecord(id) {
+  return request({
+    url: `/injury-records/${id}`,
+    method: 'delete'
+  })
+}
+
+export function getRehabilitationPlansByInjury(injuryRecordId) {
+  return request({
+    url: `/rehabilitation-plans/injury/${injuryRecordId}`,
+    method: 'get'
+  })
+}
+
+export function getActiveRehabilitationPlan(injuryRecordId) {
+  return request({
+    url: `/rehabilitation-plans/injury/${injuryRecordId}/active`,
+    method: 'get'
+  })
+}
+
+export function getRehabilitationPlan(id) {
+  return request({
+    url: `/rehabilitation-plans/${id}`,
+    method: 'get'
+  })
+}
+
+export function createRehabilitationPlan(data) {
+  return request({
+    url: '/rehabilitation-plans',
+    method: 'post',
+    data
+  })
+}
+
+export function updateRehabilitationPlan(id, data) {
+  return request({
+    url: `/rehabilitation-plans/${id}`,
+    method: 'put',
+    data
+  })
+}
+
+export function deleteRehabilitationPlan(id) {
+  return request({
+    url: `/rehabilitation-plans/${id}`,
+    method: 'delete'
+  })
+}

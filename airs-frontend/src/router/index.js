@@ -37,13 +37,13 @@ const routes = [
       {
         path: 'injury',
         name: 'Injury',
-        component: () => import('@/views/common/Placeholder.vue'),
+        component: () => import('@/views/injury/index.vue'),
         meta: { title: '伤病记录', menu: 'injury' }
       },
       {
         path: 'rehabilitation',
         name: 'Rehabilitation',
-        component: () => import('@/views/common/Placeholder.vue'),
+        component: () => import('@/views/rehabilitation/index.vue'),
         meta: { title: '康复计划', menu: 'rehabilitation' }
       },
       {
