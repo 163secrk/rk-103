@@ -7,18 +7,18 @@ spring:
   application:
     name: airs-backend
   datasource:
-    url: jdbc:sqlite:airs.db?journal_mode=WAL&busy_timeout=5000
+    url: jdbc:sqlite:airs.db?journal_mode=WAL&busy_timeout=30000
     driver-class-name: org.sqlite.JDBC
     username: admin
     password: admin
     hikari:
-      maximum-pool-size: 5
-      minimum-idle: 2
-      connection-timeout: 8000
+      maximum-pool-size: 1
+      minimum-idle: 1
+      connection-timeout: 30000
       idle-timeout: 600000
       max-lifetime: 1800000
       connection-test-query: SELECT 1
-      validation-timeout: 3000
+      validation-timeout: 5000
   jpa:
     database-platform: org.hibernate.community.dialect.SQLiteDialect
     hibernate:
@@ -28,13 +28,13 @@ spring:
       hibernate:
         format_sql: true
         jdbc:
-          use_get_generated_keys: false
-          batch_size: 50
+          use_get_generated_keys: true
+          batch_size: 0
         id:
           new_generator_mappings: true
         connection:
           provider_disables_autocommit: false
-          isolation: 2
+          isolation: 1
 
 jwt:
   secret: airs-athlete-injury-rehabilitation-tracking-system-secret-key-2024

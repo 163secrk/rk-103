@@ -291,9 +291,14 @@ const getDefaultAvatar = (name) => {
 const getStatusClass = (status) => {
   const map = {
     HEALTHY: 'healthy',
+    AVAILABLE: 'available',
     INJURED: 'injured',
+    MILD_INJURY: 'injured',
+    MODERATE_INJURY: 'injured',
+    SERIOUS_INJURY: 'injured',
+    SEVERE_INJURY: 'injured',
     REHAB: 'rehab',
-    AVAILABLE: 'available'
+    RECOVERING: 'rehab'
   }
   return map[status] || 'healthy'
 }
@@ -301,11 +306,16 @@ const getStatusClass = (status) => {
 const getStatusText = (status) => {
   const map = {
     HEALTHY: '健康',
+    AVAILABLE: '可参赛',
     INJURED: '伤停',
+    MILD_INJURY: '轻伤',
+    MODERATE_INJURY: '伤停',
+    SERIOUS_INJURY: '重伤',
+    SEVERE_INJURY: '重伤',
     REHAB: '康复中',
-    AVAILABLE: '可参赛'
+    RECOVERING: '康复中'
   }
-  return map[status] || '未知'
+  return map[status] || '健康'
 }
 
 const getAge = (birthDate) => {

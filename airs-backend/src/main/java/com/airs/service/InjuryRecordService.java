@@ -13,6 +13,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class InjuryRecordService {
@@ -44,16 +46,17 @@ public class InjuryRecordService {
             injuryRecord.setAthleteName(athlete.getName());
         }
 
-        String status = determineAthleteStatus(injuryRecord.getSeverity());
-        athlete.setStatus(status);
-        athleteRepository.save(athlete);
-
-        return injuryRecordRepository.save(injuryRecord);
+        InjuryRecord saved = injuryRecordRepository.save(injuryRecord);
+        updateAthleteStatusAfterInjuryChange(athlete);
+        return saved;
     }
 
     @Transactional
     public InjuryRecord updateInjuryRecord(Long id, InjuryRecord injuryRecord) {
         InjuryRecord existing = getInjuryRecordById(id);
+        Long originalAthleteId = existing.getAthleteId();
+        String originalStatus = existing.getStatus();
+
         existing.setBodyPart(injuryRecord.getBodyPart());
         existing.setInjuryType(injuryRecord.getInjuryType());
         existing.setSeverity(injuryRecord.getSeverity());
@@ -64,8 +67,11 @@ public class InjuryRecordService {
         existing.setDoctorId(injuryRecord.getDoctorId());
         existing.setDoctorName(injuryRecord.getDoctorName());
 
-        if (injuryRecord.getAthleteId() != null && !injuryRecord.getAthleteId().equals(existing.getAthleteId())) {
-            Athlete oldAthlete = athleteRepository.findById(existing.getAthleteId()).orElse(null);
+        boolean athleteChanged = injuryRecord.getAthleteId() != null && !injuryRecord.getAthleteId().equals(existing.getAthleteId());
+        boolean statusChanged = injuryRecord.getStatus() != null && !injuryRecord.getStatus().equals(originalStatus);
+
+        if (athleteChanged) {
+            Athlete oldAthlete = athleteRepository.findById(originalAthleteId).orElse(null);
             if (oldAthlete != null) {
                 updateAthleteStatusAfterInjuryChange(oldAthlete);
             }
@@ -73,20 +79,24 @@ public class InjuryRecordService {
             Athlete newAthlete = athleteRepository.findById(injuryRecord.getAthleteId()).orElse(null);
             if (newAthlete != null) {
                 existing.setAthleteName(newAthlete.getName());
-                String status = determineAthleteStatus(injuryRecord.getSeverity());
-                newAthlete.setStatus(status);
-                athleteRepository.save(newAthlete);
-            }
-        } else if (injuryRecord.getSeverity() != null && !injuryRecord.getSeverity().equals(existing.getSeverity())) {
-            Athlete athlete = athleteRepository.findById(existing.getAthleteId()).orElse(null);
-            if (athlete != null) {
-                String status = determineAthleteStatus(injuryRecord.getSeverity());
-                athlete.setStatus(status);
-                athleteRepository.save(athlete);
             }
         }
 
-        return injuryRecordRepository.save(existing);
+        InjuryRecord saved = injuryRecordRepository.save(existing);
+
+        if (athleteChanged) {
+            Athlete newAthlete = athleteRepository.findById(injuryRecord.getAthleteId()).orElse(null);
+            if (newAthlete != null) {
+                updateAthleteStatusAfterInjuryChange(newAthlete);
+            }
+        } else if (statusChanged || (injuryRecord.getSeverity() != null && !injuryRecord.getSeverity().equals(existing.getSeverity()))) {
+            Athlete athlete = athleteRepository.findById(originalAthleteId).orElse(null);
+            if (athlete != null) {
+                updateAthleteStatusAfterInjuryChange(athlete);
+            }
+        }
+
+        return saved;
     }
 
     @Transactional
@@ -102,31 +112,15 @@ public class InjuryRecordService {
         }
     }
 
-    private String determineAthleteStatus(String severity) {
-        if (severity == null) {
-            return "INJURED";
-        }
-        switch (severity) {
-            case "轻度":
-            case "MILD":
-                return "MILD_INJURY";
-            case "中度":
-            case "MODERATE":
-                return "INJURED";
-            case "重度":
-            case "SEVERE":
-                return "SERIOUS_INJURY";
-            default:
-                return "INJURED";
-        }
-    }
-
     private void updateAthleteStatusAfterInjuryChange(Athlete athlete) {
-        long activeCount = injuryRecordRepository.findByAthleteIdAndStatus(athlete.getId(), "ACTIVE").size();
-        if (activeCount == 0) {
-            athlete.setStatus("HEALTHY");
-        } else {
+        List<InjuryRecord> activeRecords = injuryRecordRepository.findByAthleteIdAndStatus(athlete.getId(), "ACTIVE");
+        List<InjuryRecord> rehabRecords = injuryRecordRepository.findByAthleteIdAndStatus(athlete.getId(), "REHAB");
+        if (!activeRecords.isEmpty()) {
             athlete.setStatus("INJURED");
+        } else if (!rehabRecords.isEmpty()) {
+            athlete.setStatus("REHAB");
+        } else {
+            athlete.setStatus("HEALTHY");
         }
         athleteRepository.save(athlete);
     }

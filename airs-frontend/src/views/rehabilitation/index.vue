@@ -710,6 +710,7 @@ const handleSubmit = async () => {
       await createRehabilitationPlan(submitData)
       ElMessage.success('创建成功')
     }
+    selectedInjury.value = form.injuryRecordId
     dialogVisible.value = false
     fetchPlans()
   } finally {

@@ -85,15 +85,20 @@ const stats = ref({
   available: 0
 })
 
+const isHealthyStatus = (s) => s === 'HEALTHY'
+const isInjuredStatus = (s) => ['INJURED', 'MILD_INJURY', 'MODERATE_INJURY', 'SERIOUS_INJURY', 'SEVERE_INJURY'].includes(s)
+const isRehabStatus = (s) => ['REHAB', 'RECOVERING'].includes(s)
+const isAvailableStatus = (s) => s === 'AVAILABLE'
+
 onMounted(async () => {
   try {
     const res = await getAthletes({ pageNum: 1, pageSize: 1000 })
     const list = res.list || []
     stats.value.total = res.total || 0
-    stats.value.healthy = list.filter(a => a.status === 'HEALTHY').length
-    stats.value.injured = list.filter(a => a.status === 'INJURED').length
-    stats.value.rehab = list.filter(a => a.status === 'REHAB').length
-    stats.value.available = list.filter(a => a.status === 'AVAILABLE').length
+    stats.value.healthy = list.filter(a => isHealthyStatus(a.status)).length
+    stats.value.injured = list.filter(a => isInjuredStatus(a.status)).length
+    stats.value.rehab = list.filter(a => isRehabStatus(a.status)).length
+    stats.value.available = list.filter(a => isAvailableStatus(a.status)).length
   } catch {}
 })
 </script>
