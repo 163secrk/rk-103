@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -27,6 +29,13 @@ public class UserController {
             @RequestParam(required = false) String role) {
         PageResult<User> page = userService.getUserPage(pageNum, pageSize, keyword, role);
         return Result.success(page);
+    }
+
+    @GetMapping("/doctors")
+    public Result<List<User>> getDoctorList() {
+        List<User> doctors = userService.getDoctorList();
+        doctors.forEach(d -> d.setPassword(null));
+        return Result.success(doctors);
     }
 
     @GetMapping("/{id}")

@@ -222,8 +222,21 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="主治医生" prop="doctorName">
-              <el-input v-model="form.doctorName" placeholder="请输入医生姓名" />
+            <el-form-item label="主治医生" prop="doctorId">
+              <el-select
+                v-model="form.doctorId"
+                placeholder="请选择主治医生"
+                style="width: 100%"
+                filterable
+                @change="handleDoctorChange"
+              >
+                <el-option
+                  v-for="doctor in doctorList"
+                  :key="doctor.id"
+                  :label="doctor.realName || doctor.username"
+                  :value="doctor.id"
+                />
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -298,7 +311,7 @@ import {
   Plus, Search, Refresh, View, Edit, Delete
 } from '@element-plus/icons-vue'
 import {
-  getInjuryRecords, createInjuryRecord, updateInjuryRecord, deleteInjuryRecord, getAthleteList
+  getInjuryRecords, createInjuryRecord, updateInjuryRecord, deleteInjuryRecord, getAthleteList, getDoctorList
 } from '@/api'
 import { useUserStore } from '@/store/user'
 
@@ -312,6 +325,7 @@ const searchKeyword = ref('')
 const statusFilter = ref('')
 const tableData = ref([])
 const athleteList = ref([])
+const doctorList = ref([])
 const pagination = reactive({
   pageNum: 1,
   pageSize: 10,
@@ -395,10 +409,26 @@ const fetchAthleteList = async () => {
   }
 }
 
+const fetchDoctorList = async () => {
+  try {
+    const res = await getDoctorList()
+    doctorList.value = res || []
+  } catch (e) {
+    console.error('获取医生列表失败', e)
+  }
+}
+
 const handleAthleteChange = (athleteId) => {
   const athlete = athleteList.value.find(a => a.id === athleteId)
   if (athlete) {
     form.athleteName = athlete.name
+  }
+}
+
+const handleDoctorChange = (doctorId) => {
+  const doctor = doctorList.value.find(d => d.id === doctorId)
+  if (doctor) {
+    form.doctorName = doctor.realName || doctor.username
   }
 }
 
@@ -452,6 +482,9 @@ const handleAdd = () => {
 const handleEdit = (row) => {
   isEdit.value = true
   Object.assign(form, { ...row })
+  if (row.doctorId) {
+    handleDoctorChange(row.doctorId)
+  }
   dialogVisible.value = true
 }
 
@@ -501,6 +534,7 @@ const handleCreatePlan = (row) => {
 onMounted(() => {
   fetchData()
   fetchAthleteList()
+  fetchDoctorList()
 })
 </script>
 

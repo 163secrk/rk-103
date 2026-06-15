@@ -7,16 +7,18 @@ spring:
   application:
     name: airs-backend
   datasource:
-    url: jdbc:sqlite:airs.db?journal_mode=WAL&busy_timeout=30000
+    url: jdbc:sqlite:airs.db?journal_mode=WAL&busy_timeout=5000
     driver-class-name: org.sqlite.JDBC
     username: admin
     password: admin
     hikari:
-      maximum-pool-size: 1
-      connection-timeout: 30000
+      maximum-pool-size: 5
+      minimum-idle: 2
+      connection-timeout: 8000
       idle-timeout: 600000
       max-lifetime: 1800000
       connection-test-query: SELECT 1
+      validation-timeout: 3000
   jpa:
     database-platform: org.hibernate.community.dialect.SQLiteDialect
     hibernate:

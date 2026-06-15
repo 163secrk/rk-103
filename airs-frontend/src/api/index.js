@@ -201,3 +201,10 @@ export function resetUserPassword(id, data) {
     data
   })
 }
+
+export function getDoctorList() {
+  return request({
+    url: '/users/doctors',
+    method: 'get'
+  })
+}

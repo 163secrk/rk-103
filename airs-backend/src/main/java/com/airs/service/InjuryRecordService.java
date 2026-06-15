@@ -61,6 +61,8 @@ public class InjuryRecordService {
         existing.setInjuryDate(injuryRecord.getInjuryDate());
         existing.setStatus(injuryRecord.getStatus());
         existing.setTreatment(injuryRecord.getTreatment());
+        existing.setDoctorId(injuryRecord.getDoctorId());
+        existing.setDoctorName(injuryRecord.getDoctorName());
 
         if (injuryRecord.getAthleteId() != null && !injuryRecord.getAthleteId().equals(existing.getAthleteId())) {
             Athlete oldAthlete = athleteRepository.findById(existing.getAthleteId()).orElse(null);
