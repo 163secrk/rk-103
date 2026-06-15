@@ -35,8 +35,6 @@
           <el-option label="管理员" value="ADMIN" />
           <el-option label="医生" value="DOCTOR" />
           <el-option label="康复师" value="THERAPIST" />
-          <el-option label="教练" value="COACH" />
-          <el-option label="运动员" value="ATHLETE" />
         </el-select>
         <el-button type="primary" :icon="Search" @click="handleSearch">搜索</el-button>
         <el-button :icon="Refresh" @click="handleReset">重置</el-button>
@@ -127,8 +125,6 @@
             <el-option label="管理员" value="ADMIN" />
             <el-option label="医生" value="DOCTOR" />
             <el-option label="康复师" value="THERAPIST" />
-            <el-option label="教练" value="COACH" />
-            <el-option label="运动员" value="ATHLETE" />
           </el-select>
         </el-form-item>
         <el-form-item label="真实姓名" prop="realName">
