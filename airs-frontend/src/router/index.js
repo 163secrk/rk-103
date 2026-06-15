@@ -55,7 +55,7 @@ const routes = [
       {
         path: 'users',
         name: 'Users',
-        component: () => import('@/views/common/Placeholder.vue'),
+        component: () => import('@/views/users/index.vue'),
         meta: { title: '用户管理', menu: 'users' }
       }
     ]
