@@ -130,14 +130,22 @@
         label-width="90px"
       >
         <el-row :gutter="12">
-          <el-col :span="12">
-            <el-form-item label="运动员姓名" prop="athleteName">
-              <el-input v-model="form.athleteName" placeholder="请输入运动员姓名" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="运动员ID" prop="athleteId">
-              <el-input-number v-model="form.athleteId" :min="1" style="width: 100%" />
+          <el-col :span="24">
+            <el-form-item label="运动员" prop="athleteId">
+              <el-select
+                v-model="form.athleteId"
+                placeholder="请选择运动员"
+                style="width: 100%"
+                filterable
+                @change="handleAthleteChange"
+              >
+                <el-option
+                  v-for="athlete in athleteList"
+                  :key="athlete.id"
+                  :label="`${athlete.name} (${athlete.jerseyNumber || '无编号'})`"
+                  :value="athlete.id"
+                />
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -290,7 +298,7 @@ import {
   Plus, Search, Refresh, View, Edit, Delete
 } from '@element-plus/icons-vue'
 import {
-  getInjuryRecords, createInjuryRecord, updateInjuryRecord, deleteInjuryRecord
+  getInjuryRecords, createInjuryRecord, updateInjuryRecord, deleteInjuryRecord, getAthleteList
 } from '@/api'
 import { useUserStore } from '@/store/user'
 
@@ -303,6 +311,7 @@ const submitLoading = ref(false)
 const searchKeyword = ref('')
 const statusFilter = ref('')
 const tableData = ref([])
+const athleteList = ref([])
 const pagination = reactive({
   pageNum: 1,
   pageSize: 10,
@@ -331,8 +340,7 @@ const form = reactive({
 })
 
 const formRules = {
-  athleteId: [{ required: true, message: '请输入运动员ID', trigger: 'blur' }],
-  athleteName: [{ required: true, message: '请输入运动员姓名', trigger: 'blur' }],
+  athleteId: [{ required: true, message: '请选择运动员', trigger: 'change' }],
   bodyPart: [{ required: true, message: '请选择受伤部位', trigger: 'change' }],
   injuryType: [{ required: true, message: '请选择伤病类型', trigger: 'change' }],
   severity: [{ required: true, message: '请选择严重程度', trigger: 'change' }],
@@ -376,6 +384,22 @@ const getStatusText = (status) => {
 const formatDateTime = (datetime) => {
   if (!datetime) return '-'
   return datetime.replace('T', ' ').substring(0, 19)
+}
+
+const fetchAthleteList = async () => {
+  try {
+    const res = await getAthleteList()
+    athleteList.value = res || []
+  } catch (e) {
+    console.error('获取运动员列表失败', e)
+  }
+}
+
+const handleAthleteChange = (athleteId) => {
+  const athlete = athleteList.value.find(a => a.id === athleteId)
+  if (athlete) {
+    form.athleteName = athlete.name
+  }
 }
 
 const fetchData = async () => {
@@ -476,6 +500,7 @@ const handleCreatePlan = (row) => {
 
 onMounted(() => {
   fetchData()
+  fetchAthleteList()
 })
 </script>
 

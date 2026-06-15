@@ -37,6 +37,13 @@ export function getAthletes(params) {
   })
 }
 
+export function getAthleteList() {
+  return request({
+    url: '/athletes/list',
+    method: 'get'
+  })
+}
+
 export function getAthlete(id) {
   return request({
     url: `/athletes/${id}`,

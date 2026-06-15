@@ -104,11 +104,14 @@ public class InjuryRecordService {
         if (severity == null) {
             return "INJURED";
         }
-        switch (severity.toUpperCase()) {
+        switch (severity) {
+            case "轻度":
             case "MILD":
                 return "MILD_INJURY";
+            case "中度":
             case "MODERATE":
                 return "INJURED";
+            case "重度":
             case "SEVERE":
                 return "SERIOUS_INJURY";
             default:

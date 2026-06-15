@@ -11,6 +11,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AthleteService {
@@ -59,5 +61,9 @@ public class AthleteService {
             throw new RuntimeException("运动员不存在");
         }
         athleteRepository.deleteById(id);
+    }
+
+    public List<Athlete> getAllAthletes() {
+        return athleteRepository.findAll(Sort.by(Sort.Direction.DESC, "createTime"));
     }
 }

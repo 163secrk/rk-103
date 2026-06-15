@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/athletes")
 @RequiredArgsConstructor
@@ -48,5 +50,10 @@ public class AthleteController {
     public Result<Void> deleteAthlete(@PathVariable Long id) {
         athleteService.deleteAthlete(id);
         return Result.success();
+    }
+
+    @GetMapping("/list")
+    public Result<List<Athlete>> getAllAthletes() {
+        return Result.success(athleteService.getAllAthletes());
     }
 }
